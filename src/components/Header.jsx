@@ -1,6 +1,7 @@
 import { React} from "react";
 import {
   HStack,
+  Flex,
   Heading,
   Select,
   IconButton,
@@ -28,30 +29,30 @@ export default function Header() {
       alignContent={"center"}
       alignItems="center"
       justifyContent="space-between"
-      width="100vw"
+     
     >
+       <Flex justifyContent="space-between" >
       <Heading
-        pl={isNotSmallerScreen ? "10" : "5"}
-        fontSize={isNotSmallerScreen ? "30" : "25"}
+        pl={isNotSmallerScreen ? "10" : "10"}
+        fontSize={isNotSmallerScreen ? "30" : "25"} mr={isNotSmallerScreen?'70vw':'20vw'}
       >
         Crypto
       </Heading>
-      <HStack
-        justifyContent={"space-between"}
-        width={isNotSmallerScreen ? "30vw" : "46vw"}
-      >
+      
         <Select
+       
           variant="outline"
           borderColor={isDark ? "gray.700" : "gray.500"}
-          width={isNotSmallerScreen ? "30" : "40"}
+          width={isNotSmallerScreen ? "35" : "20"}
           fontSize="xs"
           value={cur}
+          mr={isNotSmallerScreen?"10":"3"}
           onChange={changeCur}
         >
           <option value="INR">INR</option>
           <option value="USD">USD</option>
         </Select>
-        <HStack pr="20">
+        
           <IconButton
             mr={isNotSmallerScreen ? "5" : "2"}
             icon={isDark ? <FaMoon /> : <FaSun />}
@@ -75,8 +76,9 @@ export default function Header() {
               }
             />
           </a>
-        </HStack>
-      </HStack>
+    
+      
+      </Flex>
     </HStack>
   );
 }
