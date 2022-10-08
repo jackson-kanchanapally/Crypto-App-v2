@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { GrFormPrevious , GrFormNext} from "react-icons/gr";
+import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { CoinList } from "../config/api";
 import { CryptoState } from "../CryptoContext";
 import {
@@ -25,10 +25,12 @@ import {
 import { useNavigate } from "react-router-dom";
 
 export default function CoinTables() {
-    const navigate=useNavigate()
-    const [page,setPage]=React.useState('1')
+  // const bg=useColorModeValue('gray.500','#020307')
+  // const color=useColorModeValue('gray.900','gray.100')
+  const navigate = useNavigate();
+  const [page, setPage] = React.useState("1");
   const { colorMode, toggleColorMode } = useColorMode();
-  const isDark=colorMode==='dark'
+  const isDark = colorMode === "dark";
   const [isNotSmallerScreen] = useMediaQuery("(min-width:600px)");
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -41,14 +43,18 @@ export default function CoinTables() {
     setCoins(data);
     setLoading(!loading);
   };
- 
+
   React.useEffect(() => {
     fetchCoins();
   }, [cur]);
   const coinList = coins.map((coin) => {
     let profit = coin?.price_change_percentage_24h >= 0;
     return (
-      <Tr onClick={() => navigate(`/coins/${coin.id}`)} cursor="pointer" _hover={isDark?{bg:'gray.900'}:{bg:'gray.200'}}>
+      <Tr
+        onClick={() => navigate(`/coins/${coin.id}`)}
+        cursor="pointer"
+        _hover={isDark ? { bg: "gray.900" } : { bg: "gray.200" }}
+      >
         <Td>
           <Flex alignItems={"center"}>
             <Image
@@ -75,7 +81,7 @@ export default function CoinTables() {
         </Td>
         <Td>
           {sym}
-          {numberWithCommas(coin.market_cap.toString().slice(0,-6))}M
+          {numberWithCommas(coin.market_cap.toString().slice(0, -6))}M
         </Td>
       </Tr>
     );
@@ -91,7 +97,7 @@ export default function CoinTables() {
             <Progress size="xs" isIndeterminate />
           ) : (
             <Table>
-              <Thead bg={isDark?"gray.700":"gray.200"}>
+              <Thead bg={isDark ? "gray.700" : "gray.200"}>
                 <Tr>
                   <Th fontSize={"15"}>Coin</Th>
                   <Th fontSize={"15"}>Price</Th>
@@ -99,13 +105,30 @@ export default function CoinTables() {
                   <Th fontSize={"15"}>Market Cap</Th>
                 </Tr>
               </Thead>
-              <Tbody>{coinList.slice((page-1)*10,(page-1)*10+10)}</Tbody>
+              <Tbody>
+                {coinList.slice((page - 1) * 10, (page - 1) * 10 + 10)}
+              </Tbody>
             </Table>
           )}
         </TableContainer>
-        <Flex mt='10vh' mb='10vh'>
-            <IconButton isRound mr='20' onClick={()=>setPage((p)=>(page!==1)?p-1:1)} icon={<GrFormPrevious/>} backgroundColor={isDark?"gray.500":"gray.400"}></IconButton>
-            <IconButton isRound icon={<GrFormNext/>} onClick={()=>setPage((n)=>(page!==coinList.length/10)?n+1:coinList.length/10)} backgroundColor={isDark?"gray.500":"gray.400"}></IconButton>
+        <Flex mt="10vh" mb="10vh">
+          <IconButton
+            isRound
+            mr="20"
+            onClick={() => setPage((p) => (page !== 1 ? p - 1 : 1))}
+            icon={<GrFormPrevious />}
+            backgroundColor={isDark ? "gray.500" : "gray.400"}
+          ></IconButton>
+          <IconButton
+            isRound
+            icon={<GrFormNext />}
+            onClick={() =>
+              setPage((n) =>
+                page !== coinList.length / 10 ? n + 1 : coinList.length / 10
+              )
+            }
+            backgroundColor={isDark ? "gray.500" : "gray.400"}
+          ></IconButton>
         </Flex>
       </Flex>
     </>

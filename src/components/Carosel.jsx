@@ -70,8 +70,8 @@ export default function Carosel() {
       <AliceCarousel
         mouseTracking
         infinite
-        autoPlayDirection={'1500'}
-        animationDuaration={'1500'}
+        autoPlayDirection={1000}
+        animationDuration={1500}
         disableDotsControls
         responsive={{ 0: { items: 2 }, 512: { items: 4 } }}
         autoPlay
