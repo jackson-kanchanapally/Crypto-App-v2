@@ -10,7 +10,8 @@ import {
   Stat,
   StatNumber,
   StatArrow,
-  StatLabel
+  StatLabel,
+  HStack
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import AliceCarousel from "react-alice-carousel";
@@ -23,14 +24,16 @@ export default function Carosel() {
     const { data } = await axios.get(TrendingCoins(cur));
     setTrending(data);
   };
-  console.log(trending);
   useEffect(() => {
     fetchTrendingCoins();
   }, [cur]);
   const items = trending.map((coin) => {
     const profit = coin.price_change_percentage_24h >= 0;
+    const numberWithCommas=(x)=>{
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
+    }
     return (
-      <Flex direction="column" alignItems="center" color="white">
+      <Flex direction="column" alignItems="center" justifyContent={'center'} color="white">
         <Link to={`/coins/${coin.id}`}>
           <Image
             src={coin.image}
@@ -38,15 +41,22 @@ export default function Carosel() {
             height={isNotSmallerScreen ? "10vh" : "7vh"}
             style={{ marginBottom: 10 }}
             ></Image>
-            <Stat>
-          <StatLabel fontSize={'xl'} textAlign='center'>{coin.symbol.toUpperCase()} &nbsp;</StatLabel>
+         <Stat>
+       <HStack>
+       <StatLabel fontSize={'xl'} textAlign='center'>{coin.symbol} &nbsp;</StatLabel>
       
-        <StatNumber color={profit?'green.400':'red.400'} fontSize={'s'} >
-        <StatArrow type={profit?"increase":"decrease"} color={profit?'green.400':'red.400'} fontSize={'s'} />{profit && "+"} {coin.price_change_percentage_24h.toFixed(2)}
+      <StatNumber color={profit?'green.400':'red.400'} fontSize={'18'} >
+      <StatArrow type={profit?"increase":"decrease"} color={profit?'green.400':'red.400'} fontSize={'s'} />{profit && "+"}{coin.price_change_percentage_24h.toFixed(2)}
+      </StatNumber>
+       </HStack>
+            
+      <Flex justifyContent={'center'} pr='8'>
+      <StatNumber fontWeight={400} fontSize={'18'} >
+            {sym} {numberWithCommas(coin.current_price.toFixed(2))}
         </StatNumber>
-
-          
+      </Flex>
           </Stat>
+      
         </Link>
       </Flex>
     );
@@ -60,10 +70,10 @@ export default function Carosel() {
       <AliceCarousel
         mouseTracking
         infinite
-        autoPlayDirection={1500}
-        animationDuaration={1500}
+        autoPlayDirection={'1500'}
+        animationDuaration={'1500'}
         disableDotsControls
-        responsive={{ 0: { items: 3 }, 512: { items: 5 } }}
+        responsive={{ 0: { items: 2 }, 512: { items: 4 } }}
         autoPlay
         disableButtonsControls
         items={items}
