@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function CoinTables() {
     const navigate=useNavigate()
+    const [page,setPage]=React.useState('1')
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark=colorMode==='dark'
   const [isNotSmallerScreen] = useMediaQuery("(min-width:600px)");
@@ -40,6 +41,7 @@ export default function CoinTables() {
     setCoins(data);
     setLoading(!loading);
   };
+ 
   React.useEffect(() => {
     fetchCoins();
   }, [cur]);
@@ -97,13 +99,13 @@ export default function CoinTables() {
                   <Th fontSize={"15"}>Market Cap</Th>
                 </Tr>
               </Thead>
-              <Tbody>{coinList.slice(0, 10)}</Tbody>
+              <Tbody>{coinList.slice((page-1)*10,(page-1)*10+10)}</Tbody>
             </Table>
           )}
         </TableContainer>
         <Flex mt='10vh' mb='10vh'>
-            <IconButton isRound mr='20' icon={<GrFormPrevious/>} backgroundColor={isDark?"gray.500":"gray.400"}></IconButton>
-            <IconButton isRound icon={<GrFormNext/>} backgroundColor={isDark?"gray.500":"gray.400"}></IconButton>
+            <IconButton isRound mr='20' onClick={()=>setPage((p)=>(page!==1)?p-1:1)} icon={<GrFormPrevious/>} backgroundColor={isDark?"gray.500":"gray.400"}></IconButton>
+            <IconButton isRound icon={<GrFormNext/>} onClick={()=>setPage((n)=>(page!==coinList.length/10)?n+1:coinList.length/10)} backgroundColor={isDark?"gray.500":"gray.400"}></IconButton>
         </Flex>
       </Flex>
     </>
